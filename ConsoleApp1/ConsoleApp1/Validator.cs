@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp1
 {
-    internal class Validator
+    internal class DataValidator
     {
 
         static public int GetValidationOfUserID()
@@ -28,7 +28,7 @@ namespace ConsoleApp1
         }
 
 
-        static public void YesOrNo()
+        static public string YesOrNo()
         {
             //string yesOrNo = Validator.YesOrNo();
 
@@ -41,8 +41,27 @@ namespace ConsoleApp1
                 }
                 Console.WriteLine("Please enter a valide [Yes/No]");
             }
+            return yesOrNo;
 
         }
+        static public string ValidLocation()
+        {
+            //string ValidLocation1 = Validator.ValideLocation();
+
+            string validLocation = Console.ReadLine().ToUpper();
+            while (true)
+            {
+                if (validLocation == "FITNESSAREUS" || validLocation == "CLUBFITNESS" || validLocation == "PLANETFITNESS" || validLocation == "BALLSOFSTEEL")
+                {
+                    break;
+                }
+                Console.WriteLine("Please enter a valid Location");
+            }
+            return validLocation;
+
+        }
+
+
 
 
     }
