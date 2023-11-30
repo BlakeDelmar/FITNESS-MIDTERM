@@ -1,4 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using ConsoleApp1;
+using System.ComponentModel.DataAnnotations;
+using System.Data.Common;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 namespace FitnessMidterm
@@ -19,6 +22,9 @@ namespace FitnessMidterm
             Dictionary<int ,string> memberList= new Dictionary<int ,string>();
             Dictionary<int ,string> memberTypes= new Dictionary<int ,string>();
             Console.WriteLine("Welcome to the Fitness center program!");
+            Club clubs = new Club();
+            
+            
             string yesOrNo;
             while (true)
             {   
@@ -38,38 +44,35 @@ namespace FitnessMidterm
                     }
                     Console.WriteLine("Please enter valid member type");
                 }
+
+                Console.WriteLine("What Club is the member apart of? You may pick from:");
+                Console.WriteLine("FitnessAreUs, ClubFitness, PlanetFitness, BallsOfSteel");
+                string ValidLocation1 = DataValidator.ValidLocation();
+                Console.WriteLine($"You picked {ValidLocation1}");
+
                 
+                Console.WriteLine("What is the Member ID?");
+                int usersID = DataValidator.GetValidationOfUserID();
+                Console.WriteLine($"{usersID} is the members new ID");
+                Members newMember = new Members(memberName, usersID);
+
+
                 memberList.Add(memberList.Count, memberName);
-                while (true)
-                {
+                Console.WriteLine("Would you like to add another member? [Y/N]");
 
-                    Console.WriteLine("Would you like to add another member? [Y/N]");
-                    yesOrNo = Console.ReadLine().ToUpper();
-
-                    if (yesOrNo == "Y" || yesOrNo == "N")
-                    {
-                        break;
-                    }
-                    Console.WriteLine("enter valid [Y/N]");
-                }
-                if (yesOrNo != "Y")
+                string yesOrNo2 = DataValidator.YesOrNo();
+            
+                if (yesOrNo2 != "Y")
                 {
                     break;
                 }
             }
-            string yesOrNo1;
-            while (true)
-            {
-                Console.WriteLine("Would you like to view the member list? [Y/N]");
-                yesOrNo1 = Console.ReadLine().ToUpper();
+            
 
-                if (yesOrNo1 == "Y" || yesOrNo1 == "N")
-                {
-                    break;
-                }
-                Console.WriteLine("enter valid [Y/N]");
-            }
-            if (yesOrNo1 == "Y")
+            Console.WriteLine("Would you like to view the member list? [Y/N]");
+            string yesOrNo3 = DataValidator.YesOrNo();
+
+            if (yesOrNo3 == "Y")
             {
                 DisplayMemberNames(memberList);
 
@@ -77,7 +80,7 @@ namespace FitnessMidterm
             int id;
             while (true)
             {
-                Console.WriteLine("Would you like to view more about a member? enter a valid ID :) [0-]");
+                Console.WriteLine("Please enter a user ID to learn more about them [0-]");
 
                 string idInput = Console.ReadLine();
 
@@ -90,7 +93,12 @@ namespace FitnessMidterm
             string memberViewer = memberList[id];
             string memberTypeViewer = memberTypes[id];
             Console.Write($"{memberViewer} ");
-            Console.Write($"{memberTypeViewer}");
+            Console.Write($"{memberTypeViewer}\n");
+
+            
+            
+            var location = clubs.FitnessAreUs();
+            Console.WriteLine(location);
         }
         static void DisplayMemberNames(Dictionary<int, string> memberNames)
         {
@@ -98,6 +106,6 @@ namespace FitnessMidterm
             {
                 Console.WriteLine(member);
             }           
-        }
+        }        
     }
 }
