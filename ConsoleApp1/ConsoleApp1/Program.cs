@@ -19,8 +19,7 @@ namespace FitnessMidterm
             //select a member and generate a bill of fees, include membership points for multi club members
             //main class takes input from user (ask user to select club, members should have option to select from 4 club locations and if multi membership
 
-            Dictionary<int ,string> memberList= new Dictionary<int ,string>();
-            Dictionary<int ,string> memberTypes= new Dictionary<int ,string>();
+
             Console.WriteLine("Welcome to the Fitness center program!");
             Club clubs = new Club();
             
@@ -32,17 +31,30 @@ namespace FitnessMidterm
                 Console.WriteLine("Please enter member name");
                 string memberName = Console.ReadLine().Trim().ToUpper();
 
+                Console.WriteLine("Please enter member ID");
+                int usersID = DataValidator.GetValidationOfUserID();
+
+
+                string memberType;
                 while (true)
                 {
                     Console.WriteLine("Please enter member type [Single, Multi]");
-                    string memberType = Console.ReadLine().Trim().ToUpper();
+                     memberType = Console.ReadLine().Trim().ToUpper();
 
                     if (memberType == "SINGLE" || memberType == "MULTI")
                     {
-                        memberTypes.Add(memberTypes.Count, memberType);
+                        
                         break;
                     }
                     Console.WriteLine("Please enter valid member type");
+                }
+                if (memberType == "MULTI")
+                {
+                    MultiMember multiMember = new MultiMember(memberName, usersID);
+                }
+                if (memberType == "SINGLE")
+                {
+                    SingleMember singleMember = new SingleMember(memberName, usersID);
                 }
 
                 Console.WriteLine("What Club is the member apart of? You may pick from:");
@@ -50,16 +62,8 @@ namespace FitnessMidterm
                 string ValidLocation1 = DataValidator.ValidLocation();
                 Console.WriteLine($"You picked {ValidLocation1}");
 
-                
-                Console.WriteLine("What is the Member ID?");
-                int usersID = DataValidator.GetValidationOfUserID();
-                Console.WriteLine($"{usersID} is the members new ID");
-                Members newMember = new Members(memberName, usersID);
-
-
-                memberList.Add(memberList.Count, memberName);
+             
                 Console.WriteLine("Would you like to add another member? [Y/N]");
-
                 string yesOrNo2 = DataValidator.YesOrNo();
             
                 if (yesOrNo2 != "Y")
@@ -72,11 +76,7 @@ namespace FitnessMidterm
             Console.WriteLine("Would you like to view the member list? [Y/N]");
             string yesOrNo3 = DataValidator.YesOrNo();
 
-            if (yesOrNo3 == "Y")
-            {
-                DisplayMemberNames(memberList);
-
-            }
+            /////////// NOT IMPLEMENTED
             int id;
             while (true)
             {
@@ -90,22 +90,9 @@ namespace FitnessMidterm
                 }
                 Console.WriteLine("Please enter valid id NUMBER");
             }
-            string memberViewer = memberList[id];
-            string memberTypeViewer = memberTypes[id];
-            Console.Write($"{memberViewer} ");
-            Console.Write($"{memberTypeViewer}\n");
+            /////////// NOT IMPLEMENTED
 
-            
-            
-            var location = clubs.FitnessAreUs();
-            Console.WriteLine(location);
         }
-        static void DisplayMemberNames(Dictionary<int, string> memberNames)
-        {
-            foreach(var member in memberNames)
-            {
-                Console.WriteLine(member);
-            }           
-        }        
+    
     }
 }
