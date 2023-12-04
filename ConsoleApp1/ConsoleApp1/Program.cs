@@ -1,8 +1,11 @@
-﻿using ConsoleApp1;
+﻿    using ConsoleApp1;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Common;
 using System.Diagnostics.CodeAnalysis;
+using System.IO.Pipes;
+using System.Net;
 using System.Runtime.CompilerServices;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace FitnessMidterm
 {
@@ -21,78 +24,116 @@ namespace FitnessMidterm
 
 
             Console.WriteLine("Welcome to the Fitness center program!");
-            Club clubs = new Club();
             
-            
+            List<GymMember> membersList = new List<GymMember>();
+           
             string yesOrNo;
             while (true)
             {   
-           
+                
                 Console.WriteLine("Please enter member name");
                 string memberName = Console.ReadLine().Trim().ToUpper();
-
+                //ENTERING MEMBER NAME
+                
                 Console.WriteLine("Please enter member ID");
                 int usersID = DataValidator.GetValidationOfUserID();
-
-
-                string memberType;
-                while (true)
-                {
-                    Console.WriteLine("Please enter member type [Single, Multi]");
-                     memberType = Console.ReadLine().Trim().ToUpper();
-
-                    if (memberType == "SINGLE" || memberType == "MULTI")
-                    {
-                        
-                        break;
-                    }
-                    Console.WriteLine("Please enter valid member type");
-                }
-                if (memberType == "MULTI")
-                {
-                    MultiMember multiMember = new MultiMember(memberName, usersID);
-                }
-                if (memberType == "SINGLE")
-                {
-                    SingleMember singleMember = new SingleMember(memberName, usersID);
-                }
+                //ENTERING MEMBER ID
 
                 Console.WriteLine("What Club is the member apart of? You may pick from:");
                 Console.WriteLine("FitnessAreUs, ClubFitness, PlanetFitness, BallsOfSteel");
                 string ValidLocation1 = DataValidator.ValidLocation();
                 Console.WriteLine($"You picked {ValidLocation1}");
+                string address = string.Empty;               
+                if (ValidLocation1 == "FITNESSAREUS")
+                {
+                    address = "FLORIDA 253 EASY AVE";
+                    
+                }
+                if (ValidLocation1 == "CLUBFITNESS")
+                {
+                    address = "BRITISHCOLUMBIA 376 DONALD RD";
+                    
+                }
+                if (ValidLocation1 == "PLANETFITNESS")
+                {
+                    address = "TEXAS 34 COLUMBIA DR";
+                    
+                }
+                if (ValidLocation1 == "BALLSOFSTEEL")
+                {
+                   address = "PHEONIX 68 RAMBO RD";
+                                      
+                }
+                Club club = new Club(ValidLocation1, address);
 
-             
+                //ENTERING A VALID LOCATION
+
+                string memberType;
+                while (true)
+                {
+                    Console.WriteLine("Please enter member type [Single, Multi]");
+                    memberType = Console.ReadLine().Trim().ToUpper();
+
+                    if (memberType == "SINGLE" || memberType == "MULTI")
+                    {
+
+                        break;
+                    }
+                    Console.WriteLine("Please enter valid member type");
+                }
+                GymMember member;
+                if (memberType == "MULTI")
+                {
+                    member = new MultipleMembershipGymMember(memberName, usersID);
+                    membersList.Add(member);
+                }
+
+                if (memberType == "SINGLE")
+                {
+                    member = new SingleMembershipGymMember(memberName, usersID);
+                    membersList.Add(member);
+
+                }
+                //ENTERING MEMBER TYPE
+
+                
+                Console.WriteLine("Would you like to view the member list? [Y/N]");
+                string yesOrNo3 = DataValidator.YesOrNo();
+
+                if (yesOrNo3 == "Y")
+                {
+                    foreach (var listMember in membersList)
+                    {
+                        Console.Write($"{listMember.Name} "); //IMPORTANT
+                        Console.Write($"{listMember.Id}\n");    
+                    }
+                }
+                
+
                 Console.WriteLine("Would you like to add another member? [Y/N]");
                 string yesOrNo2 = DataValidator.YesOrNo();
-            
+
                 if (yesOrNo2 != "Y")
                 {
                     break;
                 }
+
             }
-            
 
-            Console.WriteLine("Would you like to view the member list? [Y/N]");
-            string yesOrNo3 = DataValidator.YesOrNo();
+            //int id;
+            //while (true)
+            //{
+            //    Console.WriteLine("Please enter a user ID to learn more about them [0-]");
 
-            /////////// NOT IMPLEMENTED
-            int id;
-            while (true)
-            {
-                Console.WriteLine("Please enter a user ID to learn more about them [0-]");
+            //    string idInput = Console.ReadLine();
 
-                string idInput = Console.ReadLine();
-
-                if (int.TryParse(idInput, out id))
-                {
-                    break;
-                }
-                Console.WriteLine("Please enter valid id NUMBER");
-            }
-            /////////// NOT IMPLEMENTED
-
+            //    if (int.TryParse(idInput, out id))
+            //    {
+            //        break;
+            //    }
+            //    Console.WriteLine("Please enter valid id NUMBER");
+            //}
+                // NOT IMPLEMENTED
         }
-    
     }
 }
