@@ -48,14 +48,16 @@ namespace ConsoleApp1
         {
             //string ValidLocation1 = Validator.ValideLocation();
 
-            string validLocation = Console.ReadLine().ToUpper();
+            string validLocation;
             while (true)
             {
+                validLocation = Console.ReadLine().ToUpper();
                 if (validLocation == "FITNESSAREUS" || validLocation == "CLUBFITNESS" || validLocation == "PLANETFITNESS" || validLocation == "BALLSOFSTEEL")
                 {
                     break;
                 }
                 Console.WriteLine("Please enter a valid Location");
+
             }
             return validLocation;
 
